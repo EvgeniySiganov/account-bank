@@ -1,8 +1,8 @@
 package ru.iteco.accountbank.service;
 
-import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import ru.iteco.accountbank.model.ExternalInfo;
 import ru.iteco.accountbank.model.annotation.CacheResult;
 
@@ -11,8 +11,10 @@ import javax.annotation.PreDestroy;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
+
+@Component
 @Scope("prototype")
+@Slf4j
 public class ExternalServiceImpl implements ExternalService {
 
     private Map<Integer, ExternalInfo> externalInfoMap;
@@ -27,12 +29,11 @@ public class ExternalServiceImpl implements ExternalService {
         System.out.println("ExternalServiceImpl data has been filled into the map");
     }
 
-    //@SneakyThrows
     @PreDestroy
-    public void deleteData() {
+    public void destroy() {
+        log.info("externalInfoMap before cleaning: " + externalInfoMap);
         externalInfoMap.clear();
-        System.out.println("ExternalServiceImpl data has been deleted from the map");
-        //Thread.sleep(500);
+        log.info("externalInfoMap after cleaning: " + externalInfoMap);
     }
 
     @CacheResult
@@ -41,5 +42,10 @@ public class ExternalServiceImpl implements ExternalService {
         ExternalInfo externalInfo = externalInfoMap.get(id);
         System.out.println("returning external info: " + externalInfo);
         return externalInfo;
+    }
+
+    @Override
+    public void saveExternalInfo(ExternalInfo externalInfo) {
+        externalInfoMap.put(externalInfo.getId(), externalInfo);
     }
 }

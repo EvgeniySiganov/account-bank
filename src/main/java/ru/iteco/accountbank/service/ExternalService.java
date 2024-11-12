@@ -4,4 +4,5 @@ import ru.iteco.accountbank.model.ExternalInfo;
 
 public interface ExternalService {
     ExternalInfo getExternalInfo(Integer id);
+    void saveExternalInfo(ExternalInfo externalInfo);
 }
