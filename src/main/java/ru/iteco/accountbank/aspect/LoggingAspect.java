@@ -18,10 +18,14 @@ public class LoggingAspect {
         log.info("beforeAllGetOrSetMethodAdvice:: Call method: {} with arguments {}", joinPoint.toShortString(), joinPoint.getArgs());
     }
 
-    @Around("allMethodServicePackage()")
-    public Object aroundAllMethodServicePackage(ProceedingJoinPoint joinPoint) throws Throwable {
-        log.info("aroundAllMethodServicePackage:: {}", joinPoint.toShortString());
-        return joinPoint.proceed();
+    @Before("allMethodServicePackage()")
+    public void beforeAllMethodServicePackage(JoinPoint joinPoint){
+        log.info("aroundAllMethodServicePackage:: start {}", joinPoint.toShortString());
+    }
+
+    @After("allMethodServicePackage()")
+    public void afterAllMethodServicePackage(JoinPoint joinPoint){
+        log.info("aroundAllMethodServicePackage:: end {}", joinPoint.toShortString());
     }
 
     @AfterThrowing(value = "allMethods()", throwing = "e")

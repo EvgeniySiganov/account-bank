@@ -29,8 +29,7 @@ public class AccountBankApplication {
 
     static void aopHomework(ApplicationContext applicationContext) {
         Flow flow = applicationContext.getBean(Flow.class);
-        flow.run(1);
-        flow.run(1);
+        flow.run(4);
     }
 
     private static void aop(ApplicationContext applicationContext) {
