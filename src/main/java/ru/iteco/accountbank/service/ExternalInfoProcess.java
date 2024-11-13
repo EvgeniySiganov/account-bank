@@ -3,6 +3,7 @@ package ru.iteco.accountbank.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.iteco.accountbank.model.ExternalInfo;
+import ru.iteco.accountbank.model.annotation.CheckRequest;
 
 import java.util.Objects;
 
@@ -13,13 +14,14 @@ public class ExternalInfoProcess implements Process {
     private Integer idNotProcess;
 
     @Override
+    @CheckRequest
     public boolean run(ExternalInfo externalInfo) {
         if (!Objects.equals(externalInfo.getId(), idNotProcess)) {
             System.out.println("ExternalInfoProcess id: " + externalInfo.getId() + " process");
             return true;
         } else {
             System.out.println("ExternalInfoProcess id: " + externalInfo.getId() + " is not process");
-            return false;
+            throw new RuntimeException("Id " + externalInfo.getId() + " is not process");
         }
     }
 }

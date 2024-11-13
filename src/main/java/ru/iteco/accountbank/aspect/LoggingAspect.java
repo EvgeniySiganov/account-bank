@@ -2,9 +2,8 @@ package ru.iteco.accountbank.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +18,26 @@ public class LoggingAspect {
         log.info("beforeAllGetOrSetMethodAdvice:: Call method: {} with arguments {}", joinPoint.toShortString(), joinPoint.getArgs());
     }
 
+    @Around("allMethodServicePackage()")
+    public Object aroundAllMethodServicePackage(ProceedingJoinPoint joinPoint) throws Throwable {
+        log.info("aroundAllMethodServicePackage:: {}", joinPoint.toShortString());
+        return joinPoint.proceed();
+    }
+
+    @AfterThrowing(value = "allMethods()", throwing = "e")
+    public void afterThrowingAllMethodAdvice(JoinPoint.StaticPart staticPart, Exception e) {
+        log.info("afterThrowingAllMethodAdvice:: {} {}", staticPart.toShortString(), e);
+    }
+
     @Pointcut("execution(public * get*(..))")
     public void allGetMethod() {}
 
     @Pointcut("execution(public * set*(..))")
     public void allSetMethod() {}
+
+    @Pointcut("within(ru.iteco.accountbank.service.*)")
+    public void allMethodServicePackage(){}
+
+    @Pointcut("execution(* *(..))")
+    public void allMethods(){}
 }

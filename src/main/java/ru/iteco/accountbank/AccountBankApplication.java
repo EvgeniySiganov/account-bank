@@ -21,8 +21,19 @@ public class AccountBankApplication {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AccountBankApplication.class);
         //springIocDi(applicationContext);
-        homeworkOne(applicationContext);
+        //homeworkOne(applicationContext);
+        aopHomework(applicationContext);
 
+
+    }
+
+    static void aopHomework(ApplicationContext applicationContext) {
+        Flow flow = applicationContext.getBean(Flow.class);
+        flow.run(1);
+        flow.run(1);
+    }
+
+    private static void aop(ApplicationContext applicationContext) {
         User name = User.builder().id(1).name("name").build();
         ExternalRepository externalRepository = applicationContext.getBean(ExternalRepository.class);
         log.info("Return value from externalRepository.getInfo: {}", externalRepository.getInfo(name));
