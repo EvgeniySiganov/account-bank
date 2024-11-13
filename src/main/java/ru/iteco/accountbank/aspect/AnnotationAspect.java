@@ -25,19 +25,17 @@ public class AnnotationAspect {
         log.info("beforeAllAnnotationCacheResultAdvice:: before call method annotated @CacheResult");
     }
 
-    @Around("checkRequestAnnotationMethod() && methodWithExternalInfo(externalInfo)")
-    public void beforeAnnotationCheckRequest(ProceedingJoinPoint proceedingJoinPoint, ExternalInfo externalInfo) throws Throwable {
+    @Around("checkRequestAnnotationAndExternalInfoInArgsMethod(externalInfo)")
+    public Object beforeAnnotationCheckRequestAndExternalInfoInArgsMethods(ProceedingJoinPoint proceedingJoinPoint, ExternalInfo externalInfo) throws Throwable {
         if (!externalInfo.getId().equals(idNotProcess)) {
-            proceedingJoinPoint.proceed();
+            log.info("beforeAnnotationCheckRequestAndExternalInfoInArgsMethods:: id {} is accepted", externalInfo.getId());
+            return proceedingJoinPoint.proceed();
         } else {
             throw new IllegalAccessException("Id: " + externalInfo.getId() + " is not accepted");
         }
     }
 
-    @Pointcut("@annotation(ru.iteco.accountbank.model.annotation.CheckRequest)")
-    public void checkRequestAnnotationMethod(){}
-
-    @Pointcut("execution(* *(.., ru.iteco.accountbank.model.ExternalInfo, .. )) && args(externalInfo)")
-    public void methodWithExternalInfo(ExternalInfo externalInfo){}
+    @Pointcut("@annotation(ru.iteco.accountbank.model.annotation.CheckRequest) && args(externalInfo, ..)")
+    public void checkRequestAnnotationAndExternalInfoInArgsMethod(ExternalInfo externalInfo){}
 
 }

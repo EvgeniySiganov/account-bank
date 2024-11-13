@@ -10,18 +10,18 @@ import java.util.Objects;
 @Service
 public class ExternalInfoProcess implements Process {
 
-    @Value("${id-not-process}")
-    private Integer idNotProcess;
+//    @Value("${id-not-process}")
+//    private Integer idNotProcess;
 
     @Override
     @CheckRequest
     public boolean run(ExternalInfo externalInfo) {
-        if (!Objects.equals(externalInfo.getId(), idNotProcess)) {
-            System.out.println("ExternalInfoProcess id: " + externalInfo.getId() + " process");
+//        if (!Objects.equals(externalInfo.getId(), idNotProcess)) {
+//            System.out.println("ExternalInfoProcess id: " + externalInfo.getId() + " process");
             return true;
-        } else {
-            System.out.println("ExternalInfoProcess id: " + externalInfo.getId() + " is not process");
-            throw new RuntimeException("Id " + externalInfo.getId() + " is not process");
-        }
+//        } else {
+//            System.out.println("ExternalInfoProcess id: " + externalInfo.getId() + " is not process");
+//            throw new RuntimeException("Id " + externalInfo.getId() + " is not process");
+//        }
     }
 }

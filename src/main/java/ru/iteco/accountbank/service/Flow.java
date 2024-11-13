@@ -14,12 +14,13 @@ public class Flow {
         this.process = process;
     }
 
-    public void run(Integer id) {
+    public boolean run(Integer id) {
         ExternalInfo externalInfo = externalService.getExternalInfo(id);
         if (externalInfo.getInfo() != null) {
-            process.run(externalInfo);
+            return process.run(externalInfo);
         } else {
             System.out.println(process.getClass() + "haven't processed ExternalInfo because null");
+            return false;
         }
     }
 }
