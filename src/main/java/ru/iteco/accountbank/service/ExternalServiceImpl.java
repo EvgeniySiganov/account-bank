@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 
 @Component
@@ -40,6 +41,9 @@ public class ExternalServiceImpl implements ExternalService {
     @Override
     public ExternalInfo getExternalInfo(Integer id) {
         ExternalInfo externalInfo = externalInfoMap.get(id);
+        if (externalInfo == null) {
+            throw new NoSuchElementException("There is no info by id: " + id);
+        }
         System.out.println("returning external info: " + externalInfo);
         return externalInfo;
     }
