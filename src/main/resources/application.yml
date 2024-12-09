@@ -3,3 +3,6 @@ server:
 spring:
   thymeleaf:
     prefix: classpath:/view/
+  web:
+    resources:
+      add-mappings: false
