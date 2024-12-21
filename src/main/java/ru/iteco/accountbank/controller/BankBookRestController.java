@@ -1,18 +1,19 @@
 package ru.iteco.accountbank.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.resource.NoResourceFoundException;
 import ru.iteco.accountbank.exception.BankBookNotFoundException;
 import ru.iteco.accountbank.model.BankBookDto;
 import ru.iteco.accountbank.service.BankBookService;
 
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @RestController
-@RequestMapping("/bank-book")
+@RequestMapping("/rest/bank-book")
 public class BankBookRestController {
     private final BankBookService bankBookService;
 
@@ -20,8 +21,9 @@ public class BankBookRestController {
         this.bankBookService = bankBookService;
     }
 
-    @GetMapping("/by-user-id/{userId}")
-    public ResponseEntity<List<BankBookDto>> getAllBankBookByUserId(@PathVariable() Integer userId) {
+    @GetMapping("/by-user-id/")
+    public ResponseEntity<List<BankBookDto>> getAllBankBookByUserId(@CookieValue Integer userId, @RequestHeader Map<String, String> headers) {
+        log.info("getAllBankBookByUserId {}, with headers {}", userId, headers);
         List<BankBookDto> allBankBookDtoByUserId = bankBookService.getAllBankBookDtoByUserId(userId);
         return ResponseEntity.ok(allBankBookDtoByUserId);
     }

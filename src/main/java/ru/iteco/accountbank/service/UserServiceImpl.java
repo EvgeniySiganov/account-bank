@@ -1,5 +1,6 @@
 package ru.iteco.accountbank.service;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 import ru.iteco.accountbank.model.UserDto;
 
@@ -14,6 +15,11 @@ public class UserServiceImpl implements UserService {
     private final Map<Integer, UserDto> userDtoMap = new ConcurrentHashMap<>();
     private final AtomicInteger sequenceId = new AtomicInteger(1);
 
+    @PostConstruct
+    void init() {
+        int id = sequenceId.getAndIncrement();
+        userDtoMap.put(id, UserDto.builder().email("example@example.com").id(id).name("Name").build());
+    }
 
     @Override
     public List<UserDto> getAll() {

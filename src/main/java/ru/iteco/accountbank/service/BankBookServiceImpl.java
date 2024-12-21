@@ -60,10 +60,14 @@ public class BankBookServiceImpl implements BankBookService {
 
     @Override
     public void deleteAllBankBookByUserId(Integer userId) {
-        for (BankBookDto value : bankBookDtoMap.values()) {
-            if (value.getUserId().equals(userId)) {
-                bankBookDtoMap.remove(value.getId());
-            }
+        List<Integer> list = bankBookDtoMap.values().stream()
+                .filter(bankBookDto -> bankBookDto.getUserId().equals(userId))
+                .map(BankBookDto::getId)
+                .toList();
+
+        for (Integer value : list) {
+            bankBookDtoMap.remove(value);
+
         }
     }
 }

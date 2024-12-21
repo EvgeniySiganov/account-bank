@@ -1,6 +1,8 @@
 package ru.iteco.accountbank.controller;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.iteco.accountbank.model.UserDto;
@@ -11,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/user")
 public class UserRestController {
-    private UserService userService;
+    private final UserService userService;
 
     public UserRestController(UserService userService) {
         this.userService = userService;
@@ -23,8 +25,13 @@ public class UserRestController {
     }
 
     @GetMapping("/{id}")
-    public UserDto getUserById(@PathVariable Integer id) {
-        return userService.getById(id);
+    public ResponseEntity<UserDto> getUserById(@PathVariable Integer id) {
+        UserDto byId = userService.getById(id);
+        ResponseCookie responseCookie = ResponseCookie.from("userId", id.toString()).maxAge(3600).build();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+                .body(byId);
     }
 
     @PostMapping
