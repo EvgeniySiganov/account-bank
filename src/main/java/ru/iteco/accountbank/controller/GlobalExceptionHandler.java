@@ -1,4 +1,4 @@
-package ru.iteco.accountbank.exception;
+package ru.iteco.accountbank.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -6,6 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import ru.iteco.accountbank.exception.BankBookAlreadyExistsException;
+import ru.iteco.accountbank.exception.BankBookNotFoundException;
+import ru.iteco.accountbank.exception.ChangeBankBookNumberException;
 import ru.iteco.accountbank.model.ErrorDto;
 
 @RestControllerAdvice
