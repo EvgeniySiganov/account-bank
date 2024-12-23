@@ -43,8 +43,9 @@ public class BankBookRestController {
         return ResponseEntity.ok(bankBookById);
     }
 
-    @Validated(Create.class)
+
     @PostMapping
+    @Validated(Create.class)
     public ResponseEntity<BankBookDto> post(@Valid @RequestBody BankBookDto bankBookDto) {
         BankBookDto post = bankBookService.post(bankBookDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(post);
@@ -53,7 +54,7 @@ public class BankBookRestController {
 
     @PutMapping
     @Validated(Update.class)
-    public ResponseEntity<BankBookDto> put(@RequestBody BankBookDto bankBookDto) {
+    public ResponseEntity<BankBookDto> put(@Valid @RequestBody BankBookDto bankBookDto) {
         return ResponseEntity.ok().body(bankBookService.put(bankBookDto));
     }
 
