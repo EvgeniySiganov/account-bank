@@ -1,8 +1,6 @@
 package ru.iteco.accountbank.model;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 import ru.iteco.accountbank.validation.Create;
@@ -15,7 +13,7 @@ import java.math.BigDecimal;
 @Data
 public class BankBookDto {
     @Null(groups = Create.class)
-    @NotBlank(groups = Update.class)
+    @NotNull(groups = Update.class)
     private Integer id;
 
     private Integer userId;
@@ -23,9 +21,9 @@ public class BankBookDto {
     @NotBlank(message = "Not blank!")
     private String number;
 
-    @Min(value = 0L)
+    @DecimalMin(value = "0.0", message = "The value must be greater 0")
     private BigDecimal amount;
 
     @Currency
-    private String currency;
+    private String currencyName;
 }

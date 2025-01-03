@@ -2,16 +2,24 @@ package ru.iteco.accountbank.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.extern.slf4j.Slf4j;
+import ru.iteco.accountbank.repository.CurrencyRepository;
 
-import java.util.Set;
 
+@Slf4j
 public class CurrencyValidator implements ConstraintValidator<Currency, String> {
-    private static final Set<String> SUPPORTED_CURRENCIES = Set.of("USD", "EUR", "GBP", "JPY");
+    private final CurrencyRepository currencyRepository;
 
+    public CurrencyValidator(CurrencyRepository currencyRepository) {
+        this.currencyRepository = currencyRepository;
+    }
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-
-        return SUPPORTED_CURRENCIES.contains(s);
+        //Optional<CurrencyEntity> currencyEntity = currencyRepository.findByName(s);
+        boolean b = currencyRepository.existsByName(s);
+        log.info("Currency with name {} was found {}", s, b);
+        return b;
     }
 }
+

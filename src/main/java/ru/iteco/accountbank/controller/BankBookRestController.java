@@ -55,6 +55,7 @@ public class BankBookRestController {
     @PutMapping
     @Validated(Update.class)
     public ResponseEntity<BankBookDto> put(@Valid @RequestBody BankBookDto bankBookDto) {
+        log.info("put {}", bankBookDto);
         return ResponseEntity.ok().body(bankBookService.put(bankBookDto));
     }
 

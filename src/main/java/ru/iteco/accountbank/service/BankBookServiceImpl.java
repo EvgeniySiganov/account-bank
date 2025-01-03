@@ -34,7 +34,7 @@ public class BankBookServiceImpl implements BankBookService {
         for (BankBookDto value : bankBookDtoMap.values()) {
             if (value.getUserId().equals(bankBookDto.getUserId())
                     && value.getNumber().equals(bankBookDto.getNumber())
-                    && value.getCurrency().equals(bankBookDto.getCurrency())) {
+                    && value.getCurrencyName().equals(bankBookDto.getCurrencyName())) {
                 throw new BankBookAlreadyExistsException("The bank book already exists in system, id: " + value.getId());
             }
         }

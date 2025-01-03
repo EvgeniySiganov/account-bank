@@ -1,0 +1,145 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+
+    <changeSet id="1735800631061-1" author="evgenijsiganov (generated)">
+        <sql>
+            create schema ad;
+        </sql>
+    </changeSet>
+
+    <changeSet id="1735800708169-1" author="evgenijsiganov (generated)">
+        <createSequence sequenceName="addresses_id_seq" schemaName="ad"/>
+    </changeSet>
+
+    <changeSet id="1735800803054-1" author="evgenijsiganov (generated)">
+        <createTable tableName="addresses" schemaName="ad">
+            <column name="id" type="integer" defaultValueComputed="nextval('ad.addresses_id_seq')">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="country" type="varchar"/>
+            <column name="city" type="varchar"/>
+            <column name="street" type="varchar"/>
+            <column name="home" type="varchar"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="1735811726719-1" author="evgenijsiganov (generated)">
+        <sql>
+            create schema dict;
+        </sql>
+    </changeSet>
+
+    <changeSet id="create-dict-currency-id-seq" author="evgenijsiganov">
+        <createSequence sequenceName="currencies_id_seq" schemaName="dict"/>
+    </changeSet>
+
+    <changeSet id="1735810788154-1" author="evgenijsiganov (generated)">
+        <createTable tableName="currencies" schemaName="dict">
+            <column name="id" type="integer" defaultValueComputed="nextval('dict.currencies_id_seq')">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1735812176020-1" author="evgenijsiganov (generated)">
+        <insert tableName="currencies" schemaName="dict">
+            <column name="name">RUB</column>
+        </insert>
+        <insert tableName="currencies" schemaName="dict">
+            <column name="name">EUR</column>
+        </insert>
+        <insert tableName="currencies" schemaName="dict">
+            <column name="name">USD</column>
+        </insert>
+        <insert tableName="currencies" schemaName="dict">
+            <column name="name">GBR</column>
+        </insert>
+    </changeSet>
+    
+    
+    <changeSet id="1735816410589-1" author="evgenijsiganov (generated)">
+        <createSequence sequenceName="users_id_seq" schemaName="ad"/>
+    </changeSet>
+    
+    <changeSet id="1735816474083-1" author="evgenijsiganov (generated)">
+        <createTable tableName="users" schemaName="ad">
+            <column name="id" type="integer" defaultValueComputed="nextval('ad.users_id_seq')">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_id" type="integer">
+                <constraints foreignKeyName="addresses_fkey" references="ad.addresses(id)"/>
+            </column>
+            <column name="email" type="varchar"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="1735812334361-1" author="evgenijsiganov (generated)">
+        <sql>
+            create schema bank;
+        </sql>
+    </changeSet>
+
+    <changeSet id="1735812374573-1" author="evgenijsiganov (generated)">
+        <createSequence sequenceName="bank_books_id_seq" schemaName="bank"/>
+    </changeSet>
+    
+    <changeSet id="1735812532080-1" author="evgenijsiganov (generated)">
+        <createTable tableName="bank_books" schemaName="bank">
+            <column name="id" type="integer" defaultValueComputed="nextval('bank.bank_books_id_seq')">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="number" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="numeric">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="integer">
+                <constraints nullable="false" foreignKeyName="user_id_fkey" references="ad.users(id)"/>
+            </column>
+            <column name="currency_id" type="integer">
+                <constraints nullable="false" foreignKeyName="currency_id_fkey" references="dict.currencies(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="1735813992229-1" author="evgenijsiganov (generated)">
+        <createSequence sequenceName="groups_id_seq" schemaName="ad"/>
+    </changeSet>
+
+    <changeSet id="1735814049148-1" author="evgenijsiganov (generated)">
+        <createTable tableName="groups" schemaName="ad">
+            <column name="id" type="integer" defaultValueComputed="nextval('ad.groups_id_seq')">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+         </createTable>
+    </changeSet>
+
+    <changeSet id="1735814346996-1" author="evgenijsiganov (generated)">
+        <createTable tableName="users_groups" schemaName="ad">
+            <column name="user_id" type="integer">
+                <constraints nullable="false" foreignKeyName="users_groups_user_fkey" references="ad.users(id)"/>
+            </column>
+            <column name="group_id" type="integer">
+                <constraints nullable="false" foreignKeyName="users_groups_group_fkey" references="ad.groups(id)"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="users_groups" schemaName="ad" columnNames="group_id, user_id"/>
+    </changeSet>
+
+</databaseChangeLog>
