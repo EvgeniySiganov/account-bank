@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -28,4 +30,10 @@ public class BankBookEntity {
     @ManyToOne()
     @JoinColumn(name = "currency_id")
     private CurrencyEntity currency;
+
+    @OneToMany(mappedBy = "sourceBankBook")
+    private Set<TransactionEntity> sourceTransactions = new HashSet<>();
+
+    @OneToMany(mappedBy = "targetBankBook")
+    private Set<TransactionEntity> targetTransactions = new HashSet<>();
 }

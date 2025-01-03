@@ -141,5 +141,70 @@
         </createTable>
         <addPrimaryKey tableName="users_groups" schemaName="ad" columnNames="group_id, user_id"/>
     </changeSet>
+    
+    
+    <changeSet id="1735901100369-1" author="evgenijsiganov (generated)">
+        <createSequence sequenceName="statuses_id_seq" schemaName="bank"/>
+    </changeSet>
+    
+    <changeSet id="1735901133630-1" author="evgenijsiganov (generated)">
+        <createTable tableName="statuses" schemaName="bank">
+            <column name="id" type="integer" defaultValueComputed="nextval('bank.statuses_id_seq')">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1735901941674-1" author="evgenijsiganov (generated)">
+        <insert tableName="statuses" schemaName="bank">
+            <column name="name">processing</column>
+        </insert>
+        <insert tableName="statuses" schemaName="bank">
+            <column name="name">successful</column>
+        </insert>
+        <insert tableName="statuses" schemaName="bank">
+            <column name="name">declined</column>
+        </insert>
+    </changeSet>
+    
+    
+    <changeSet id="1735897291885-1" author="evgenijsiganov (generated)">
+        <createSequence sequenceName="transactions_id_seq" schemaName="bank"/>
+    </changeSet>
+
+    <changeSet id="1735897356337-1" author="evgenijsiganov (generated)">
+        <createTable tableName="transactions" schemaName="bank">
+            <column name="id" type="integer" defaultValueComputed="nextval('bank.transactions_id_seq')">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="source_bank_book_id" type="integer">
+                <constraints nullable="false" foreignKeyName="source_bank_book_fkey" references="bank.bank_books(id)"/>
+            </column>
+            <column name="target_bank_book_id" type="integer">
+                <constraints nullable="false" foreignKeyName="target_bank_book_fkey" references="bank.bank_books(id)"/>
+            </column>
+            <column name="amount" type="numeric">
+                <constraints nullable="false"/>
+            </column>
+            <column name="initiation_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="completion_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="integer">
+                <constraints nullable="false" foreignKeyName="status_fkey" references="bank.statuses(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="1735924821756-1" author="evgenijsiganov (generated)">
+        <sql>
+            alter table bank.transactions alter column completion_date drop not null;
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>
